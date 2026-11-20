@@ -1,7 +1,7 @@
 # Handwritten digit recognizer
 
-A tiny handwritten-digit recognizer built from scratch: a small MLP
-(784 → 128 → 10) trained on MNIST, in C, Rust and JavaScript.
+A tiny handwritten digit recognizer built from scratch. a small MLP
+(784 -> 128 -> 10) trained on MNIST, in C, Rust and JavaScript.
 
 ## C kernels — `numeric_kernels.h/.c`
 
@@ -23,9 +23,9 @@ cargo build --release
 
 MNIST IDX files live in `mnist/` (downloaded from the standard
 `ossci-datasets` mirror); pass `--data <dir>` for another copy. Running from
-`nn/` works as-is: the `nn/mnist` symlink points at the root copy.
+`nn/` works as is: the `nn/mnist` symlink points at the root copy.
 
-## Web frontend — `web/`
+## Web frontend `web/`
 
 `web/engine.mjs` is a port of the Rust engine; `web/model.mjs` parses the
 model that the Rust trainer writes.
