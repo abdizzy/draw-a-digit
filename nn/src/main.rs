@@ -4,6 +4,7 @@
 //!   nn train   [--data <dir>] [--epochs N] [--lr F] [--batch N] [--hidden 128,64] [--seed N] [--save f] [--limit N]
 //!   nn eval    [--data <dir>] [--model f] [--limit N]
 //!   nn predict [--model f]              # reads 784 floats on stdin
+//!   nn bench   [--model f]              # average time per prediction
 //!
 //! Defaults: data=mnist, epochs=20, lr=0.5, batch=32, hidden=128, seed=42, save=model.bin
 
@@ -22,6 +23,7 @@ const USAGE: &str = "Usage:
   nn train   [--data <dir>] [--epochs N] [--lr F] [--batch N] [--hidden 128,64] [--seed N] [--save f] [--limit N]
   nn eval    [--data <dir>] [--model f] [--limit N]
   nn predict [--model f]              # reads 784 whitespace-separated floats on stdin
+  nn bench   [--model f]              # average time per prediction
 Defaults: data=mnist, epochs=20, lr=0.5, batch=32, hidden=128, seed=42, save=model.bin";
 
 fn main() {
@@ -32,6 +34,7 @@ fn main() {
             "eval" => cmd_eval(rest),
             "predict" => cmd_predict(rest),
             "gradcheck" => cmd_gradcheck(rest),
+            "bench" => cmd_bench(rest),
             "help" | "--help" | "-h" => {
                 println!("{USAGE}");
                 0
@@ -383,5 +386,45 @@ fn cmd_predict(args: &[String]) -> i32 {
         .collect();
     println!("{}", line.join(" "));
     println!("prediction: {best} (confidence {:.4})", probs[best]);
+    0
+}
+
+/// Average time per prediction, mirroring `web/benchmark.js` (same random
+/// input shape, warmup and iteration counts) so the numbers are comparable.
+fn cmd_bench(args: &[String]) -> i32 {
+    // Same flags as `predict` (only --model).
+    let o = match PredictOpts::parse(args) {
+        Ok(o) => o,
+        Err(e) => {
+            eprintln!("error: {e}\n\n{USAGE}");
+            return 2;
+        }
+    };
+    let net = match model::load_model(&o.model) {
+        Ok(m) => m,
+        Err(e) => {
+            eprintln!("error: {e}");
+            return 1;
+        }
+    };
+    let mut rng = rng::Rng::new(1);
+    let x: Vec<f32> = (0..INPUT_DIM).map(|_| rng.uniform(0.0, 1.0)).collect();
+
+    const N: usize = 2000;
+    const WARMUP: usize = 200;
+    let mut sink = 0.0f32;
+    for _ in 0..WARMUP {
+        sink += net.predict_probs(std::hint::black_box(&x))[0];
+    }
+    let t0 = Instant::now();
+    for _ in 0..N {
+        sink += net.predict_probs(std::hint::black_box(&x))[0];
+    }
+    let per_us = t0.elapsed().as_secs_f64() * 1e6 / N as f64;
+    std::hint::black_box(sink);
+    println!(
+        "{N} predictions on a random input: average {per_us:.1} µs/prediction (~{:.0} predictions/s)",
+        1e6 / per_us
+    );
     0
 }

@@ -135,6 +135,21 @@ canvas {
   text-decoration: none;
 }
 .bench-link a:hover { background: rgba(255, 255, 255, 0.62); }
+.back-btn {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  cursor: pointer;
+}
+.back-btn:hover { background: rgba(255, 255, 255, 0.62); }
 button {
   font: inherit;
   padding: 0.55rem 1.1rem;
