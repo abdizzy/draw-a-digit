@@ -1,0 +1,9 @@
+[package]
+name = "digit-recognizer"
+version = "0.1.0"
+edition = "2021"
+description = "Handwritten digit recognizer: a small MLP (784 -> hidden -> 10) trained on MNIST."
+
+[[bin]]
+name = "nn"
+path = "src/main.rs"

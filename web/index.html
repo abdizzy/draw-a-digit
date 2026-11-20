@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Draw a digit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Draw a digit</h1>
+  <p>
+    Draw a digit with your mouse or finger — the network (trained on MNIST by
+    the Rust engine in <code>nn/</code>) predicts as you draw below.
+  </p>
+  <div class="card">
+    <canvas id="draw-canvas" width="280" height="280"></canvas>
+    <p class="preview-label">What the model receives</p>
+    <canvas id="preview-canvas" class="preview" width="28" height="28"></canvas>
+    <p id="prediction" class="prediction">Draw a digit on the canvas.</p>
+    <div id="bars" class="bars"></div>
+    <div class="buttons">
+      <button id="clear">Clear</button>
+    </div>
+    <p class="bench-link"><a href="benchmark.html">Benchmark page</a></p>
+  </div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

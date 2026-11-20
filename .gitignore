@@ -1,0 +1,12 @@
+# Raw MNIST dataset (downloaded from the ossci-datasets mirror, see README)
+/mnist/
+nn/mnist
+
+# Rust build artifacts
+/nn/target/
+
+# Compiled C test binary
+/test_numeric_kernels
+
+# OS cruft
+.DS_Store
