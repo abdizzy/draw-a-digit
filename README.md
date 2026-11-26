@@ -4,7 +4,7 @@ A small neural network (784 → 128 → 10) trained on MNIST, written from scrat
 with no ML frameworks: numeric kernels in C, training in Rust, and live
 inference in the browser in JavaScript.
 
-**[Live demo](https://abdizzyy.github.io/draw-a-digit/web/index.html)**: draw a
+**[Live demo](https://abdizzy.github.io/draw-a-digit/web/index.html)**: draw a
 digit and the network predicts it as you draw.
 
 ![Drawing digits in the browser demo while the network predicts them live](docs/demo.gif)
