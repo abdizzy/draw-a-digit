@@ -1,0 +1,4 @@
+theme: jekyll-theme-minimal
+title: Draw a digit
+description: Simple demo for my draw a digit project
+show_downloads: true       # Optional: set to false to hide the download buttons
